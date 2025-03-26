@@ -1,0 +1,21 @@
+<div class="px-8 py-6" [class]="{ 'bg-dark-teal': theme === 'dark' }">
+  <p
+    class="pb-4"
+    [class]="{
+      'text-light-green': theme === 'dark',
+      'text-dark-teal': theme === 'light',
+    }"
+  >
+    {{ title }}
+  </p>
+
+  @if (items) {
+    <editable-area [content]="items" class="space-y-2" elementType="ul">
+      @for (component of components; track component['@path']) {
+        <li>
+          <editable-component [content]="component"></editable-component>
+        </li>
+      }
+    </editable-area>
+  }
+</div>

@@ -1,0 +1,20 @@
+<div class="w-full pt-4 pr-4 pl-4 mat-typography max-w-container mx-auto">
+    <mat-tab-group>
+        <mat-tab label="Deposit"
+        ><app-deposit-one-time
+                [tradingAccountsList]="tradingAccountsList"
+                [nric]="nric"
+                [internalUserId]="internalUserId"
+        /></mat-tab>
+        <mat-tab label="Withdrawal" *ngIf="showWithdrawal"
+        ><app-withdrawal
+                [tradingAccountsList]="tradingAccountsList"
+                [currencyList]="permittedCurrencyList"
+                [nric]="nric"
+                [internalUserId]="internalUserId"
+        /></mat-tab>
+        <!-- <mat-tab label="Currency Conversion"></mat-tab>
+        <mat-tab label="Conversion History"></mat-tab> -->
+    </mat-tab-group>
+
+</div>

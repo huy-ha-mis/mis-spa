@@ -1,0 +1,35 @@
+<div class="pt-2">
+  <h2>Cash Deposit Instructions</h2>
+  <mat-button-toggle-group
+    class="w-fit"
+    name="oneTimeDeposit"
+    aria-label="One-Time Deposit"
+  >
+    <mat-button-toggle value="paynow" checked="true" (change)="selectDeposit(0)"
+      >PayNow</mat-button-toggle
+    >
+    <mat-button-toggle value="bankTransfer" (change)="selectDeposit(1)"
+      >BankTransfer</mat-button-toggle
+    >
+  </mat-button-toggle-group>
+  <div>
+    <ul style="list-style-type: disc">
+      <li class="mb-1 mt-2">{{ disclaimer1 }}</li>
+      <li class="mb-1">{{ disclaimer2 }}</li>
+      <li class="mb-2">{{ disclaimer3 }}</li>
+    </ul>
+    <!-- <mat-list>
+      <mat-list-item>{{ disclaimer1 }}</mat-list-item>
+      <mat-list-item>{{ disclaimer2 }}</mat-list-item>
+    </mat-list> -->
+  </div>
+  @if (selectedDeposit === 1) {
+  <app-deposit-bank-transfer
+    [tradingAccountsList]="tradingAccountsList"
+    [nric]="nric"
+    [internalUserId]="internalUserId"
+  />
+  } @else if (selectedDeposit === 0) {
+  <app-deposit-paynow [tradingAccountsList]="tradingAccountsList" />
+  }
+</div>

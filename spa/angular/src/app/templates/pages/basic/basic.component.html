@@ -1,0 +1,18 @@
+
+<div class="flex flex-col justify-between min-h-[calc(100vh-25rem)]">
+  <header>
+    <editable-area [content]="header"></editable-area>
+  </header>
+  <main>
+    <editable-area [content]="main"></editable-area>
+
+  </main>
+  <app-funding></app-funding>
+  <div editable-area [content]="footer" [customView]="renderFooter"></div>
+
+</div>
+<ng-template #renderFooter let-components="components">
+  <app-newsletter [components]="components"></app-newsletter>
+  <app-footer [components]="components"></app-footer>
+  <app-footer-bottom [components]="components"></app-footer-bottom>
+</ng-template>

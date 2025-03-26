@@ -1,0 +1,13 @@
+@if (isMagnoliaEdit) {
+  <span [class]="className">
+    <ng-container *ngTemplateOutlet="ngContentTemplate"></ng-container>
+  </span>
+} @else {
+  <a [class]="className" [routerLink]="path">
+    <ng-container *ngTemplateOutlet="ngContentTemplate"></ng-container>
+  </a>
+}
+
+<ng-template #ngContentTemplate>
+  <ng-content></ng-content>
+</ng-template>

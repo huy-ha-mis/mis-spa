@@ -1,0 +1,12 @@
+<div class="{{ containerStyle }}">
+ 
+
+  @if (content) {
+    <editable-page
+      [content]="content"
+      [templateAnnotations]="templateAnnotations"
+      [magnoliaContext]="magnoliaContext"
+      [config]="magnoliaConfig"
+    ></editable-page>
+  }
+</div>

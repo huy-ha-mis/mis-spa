@@ -1,0 +1,22 @@
+<header
+  class=""
+>
+  <app-top-line
+    class="w-full"
+    
+  ></app-top-line>
+  <a href="/">
+    <img src="/Magnolia_logo.png" class="w-52" alt="Magnolia logo" />
+  </a>
+  <nav>
+    <ul class="flex">
+      <app-nav-item
+        class="space-x-6"
+        [content]="navContent"
+        [nodeName]="nodeName"
+        [currentLanguage]="currentLanguage"
+        [isMagnoliaEdit]="isMagnoliaEdit"
+      ></app-nav-item>
+    </ul>
+  </nav>
+</header>

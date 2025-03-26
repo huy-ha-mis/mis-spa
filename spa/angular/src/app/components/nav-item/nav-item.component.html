@@ -1,0 +1,19 @@
+@if (content) {
+  <app-nav-link
+    [path]="path"
+    [isMagnoliaEdit]="isMagnoliaEdit"
+    className="navbar-item"
+  >
+    {{ content['navigationTitle'] || content['title'] || content['@name'] }}
+  </app-nav-link>
+
+  @for (item of subItems; track item['@name']) {
+    <app-nav-item
+      class="space-x-6"
+      [content]="item"
+      [nodeName]="nodeName"
+      [currentLanguage]="currentLanguage"
+      [isMagnoliaEdit]="isMagnoliaEdit"
+    ></app-nav-item>
+  }
+}

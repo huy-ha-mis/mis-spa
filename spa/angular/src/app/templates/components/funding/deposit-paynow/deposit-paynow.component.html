@@ -1,0 +1,74 @@
+<mat-card class="shipping-card">
+  <mat-card-content>
+    <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+      <mat-label>Account (Cash Account)</mat-label>
+      <mat-select
+        placeholder=""
+        [(ngModel)]="tradingAccount"
+        (ngModelChange)="onTradingAccountChange()"
+      >
+        @for (account of tradingAccountsList; track account) {
+        <mat-option [value]="account">{{
+          account.tradingAccountNumber
+        }}</mat-option>
+        }
+      </mat-select>
+
+      @if (addressForm.controls['currency'].hasError('required')) {
+      <mat-error>Currency is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+    <div>
+      <div class="w-40 flex flex-col mt-2 mb-5">
+        <h2>PayNow QR code</h2>
+        <img [src]="imageDataUrl" *ngIf="imageDataUrl" alt="Fetched Image" />
+        <button type="button" mat-stroked-button (click)="downloadImage()">
+          Save QR Codes
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-col">
+      <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+        <mat-label>Unique Entity Number (UEN)</mat-label>
+        <input
+          #inputUEN
+          matInput
+          placeholder=""
+          readonly="true"
+          [(ngModel)]="uniqueEntityNumber"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="copyText(uniqueEntityNumber)"
+        >
+          <mat-icon>{{ "content_copy" }}</mat-icon>
+        </button>
+        @if (addressForm.controls['uen'].hasError('required')) {
+        <mat-error
+          >Unique Entity Number (UEN) is <strong>required</strong></mat-error
+        >
+        }
+      </mat-form-field>
+      <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+        <mat-label>Entity</mat-label>
+        <input matInput placeholder="" readonly="true" [(ngModel)]="entity" />
+        <button mat-icon-button matSuffix (click)="copyText(entity)">
+          <mat-icon>{{ "content_copy" }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+        <mat-label>Reference (Account Number)</mat-label>
+        <input
+          matInput
+          placeholder=""
+          readonly="true"
+          [(ngModel)]="reference"
+        />
+        <button mat-icon-button matSuffix (click)="copyText(reference)">
+          <mat-icon>{{ "content_copy" }}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+</mat-card>

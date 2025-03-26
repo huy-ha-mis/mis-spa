@@ -1,0 +1,8 @@
+.no-headers mat-tab-header.mat-mdc-tab-header {
+  display: none !important; /* Forcefully hide with higher priority */
+}
+
+/* Optional: Remove bottom border on the content container */
+.no-headers .mat-tab-body-wrapper {
+  border-bottom: none;
+}

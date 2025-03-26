@@ -1,0 +1,16 @@
+<div class="relative border-0 min-h-auto bg-white border-t-[1px] border-[#38374C] rounded-none m-0 py-2.5">
+<div class="max-w-container mx-auto">
+    <div class="flex justify-between items-center">
+    <div class="m-0">
+        <a href="https://www.utrade.com.sg" class="logo-desktop" target="_top"><img src="/logo_uob.png" alt="UOB Kay Hian"></a>
+    </div>
+      <ul *ngIf="items && items['@nodes']" class="flex items-center gap-1">
+        <li class="dropdown"><a class="" href="https://www.utrade.com.sg" target="_top"><i class="fa fa-home" aria-hidden="true" style="font-size:18px"></i></a></li>
+        <li *ngFor="let item of items['@nodes']">
+          <a class="block uppercase font-bold font-sans py-4 px-1.5 text-[#222] text-[.88em]" title="{{items[item].text}}" href="{{ items[item].link }}" target="_top">{{items[item].text}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+

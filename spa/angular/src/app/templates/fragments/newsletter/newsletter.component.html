@@ -1,0 +1,55 @@
+<!-- newsletter-form.component.html -->
+<section class="p-8 bg-[#c33b32] lg:pt-2.5">
+  <div class="max-w-container mx-auto">
+    <div class="flex flex-wrap">
+      <h3 class="text-[33px] text-white font-bold">UTRADE Newsletter</h3>
+
+      <div class="border-0 text-center w-full">
+        <div class="">
+          <form>
+            <fieldset class="flex flex-nowrap gap-4 max-w-[920px] mx-auto">
+              <div class="w-2/4">
+                <label for="firstname" class="text-[13px] text-white font-bold">
+                  <span>Name</span>
+                </label>
+                <div class="input">
+                  <input
+                    id="firstname"
+                    formControlName="firstname"
+                    type="text"
+                    class="w-full text-[1em] border-2 border-[#ABB0B2] text-[#343434] bg-white rounded-[3px] mt-2 mb-5 w-full h-[40px] p-2.5"
+                    inputmode="text"
+                    autocomplete="given-name"
+                />
+                </div>
+              </div>
+
+              <div class="w-2/4">
+                <label for="email" class="text-[13px] text-white font-bold">
+                  <span>Email</span><span class="hs-form-required">*</span>
+                </label>
+                <div class="input">
+                  <input
+                    id="email"
+                    formControlName="email"
+                    type="email"
+                    class="w-full text-[1em] border-2 border-[#ABB0B2] text-[#343434] bg-white rounded-[3px]  mt-2  mb-5 w-full h-[40px] p-2.5"
+                    inputmode="email"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="hs_submit hs-submit">
+              <div class="actions">
+                <button type="submit" class="text-[#333] bg-white border-[#ccc] py-1.5 px-3 mb-0 text-sm font-normal leading-[1.42857143] text-center whitespace-nowrap align-middle touch-manipulation cursor-pointer select-none border-[1px] border-transparent rounded-md" >Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

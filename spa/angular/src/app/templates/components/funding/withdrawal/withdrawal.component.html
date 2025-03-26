@@ -1,0 +1,226 @@
+<mat-stepper
+  linear="true"
+  #stepper
+  class="mt-4"
+  [orientation]="(stepperOrientation | async)!"
+>
+  <mat-step [stepControl]="withdrawalForm" label="Provide Withdrawal Details">
+    <div class="pl-4 pt-8 pr-4 pb-4">
+      <form [formGroup]="withdrawalForm" class="flex flex-col">
+        <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+          <mat-label>Currency</mat-label>
+          <mat-select placeholder="" formControlName="currency">
+            @for (currency of currencyList; track currency) {
+            <mat-option [value]="currency">{{
+              currency.currencyCode + " - " + currency.currencyDescription
+            }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+          <mat-label>Transfer from Account</mat-label>
+          <mat-select placeholder="" formControlName="srcAccount">
+            <mat-option *ngIf="isLoadingSrcAcct" [disabled]="true">
+              Loading...
+            </mat-option>
+            @for (account of srcAccountList; track account) {
+            <mat-option [value]="account.value">{{ account.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <div class="w-full mb-5 sm:w-1/2">
+          Please note that available amount for withdrawal may be lower than
+          your actual trust balance. CA pools is only available for Withdrawal
+          as of now
+        </div>
+
+        <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+          <mat-label>Available Account Pools</mat-label>
+          <mat-select placeholder="" formControlName="availAccPool">
+            <mat-option *ngIf="isLoading" [disabled]="true">
+              Loading...
+            </mat-option>
+            @for (accountPool of availAccPoolList; track accountPool) {
+            <mat-option [value]="accountPool.poolCode">{{
+              accountPool.poolCode +
+                " - Available Amount - " +
+                accountPool.amount.toLocaleString("en-US") +
+                " " +
+                accountPool.ccyCode
+            }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+          <mat-label>Transfer to Account</mat-label>
+          <mat-select placeholder="" formControlName="dstAccount">
+            @for (account of beneficiaryAccountList; track account) {
+            <mat-option [value]="account">{{
+              account.ttBeneBankAcNo
+            }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+          <mat-label>Mode of Transfer</mat-label>
+          <mat-select placeholder="" formControlName="transferMode">
+            @for (trfMode of transferModeList; track trfMode) {
+            <mat-option [value]="trfMode">{{ trfMode }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-full mb-4 sm:mb-0 sm:w-1/2">
+          <mat-label>Amount (in selected currency)</mat-label>
+          <input
+            matInput
+            placeholder=""
+            formControlName="trfAmount"
+            [errorStateMatcher]="errorMatcher"
+          />
+          <mat-error *ngIf="trfAmount.hasError('pattern')"
+            >Invalid transfer amount</mat-error
+          >
+          <mat-error *ngIf="withdrawalForm.hasError('amount')">{{
+            withdrawalForm.getError("amount")
+          }}</mat-error>
+        </mat-form-field>
+        <!-- <p class="text-base">
+          Available Amount: {{ availAmount }}
+          {{ currencyValue.currencyCode }}
+        </p> -->
+        <div *ngIf="getWithdrawalNote()" class="pt-2">
+          <p class="text-base text-red-500">
+            {{ getWithdrawalNote() }}
+          </p>
+        </div>
+      </form>
+      <div class="mt-8 flex flex-col md:flex-row">
+        <button class="mr-2" mat-button color="primary" (click)="reset()">
+          Reset
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="!withdrawalForm.valid"
+          matStepperNext
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step label="Confirm Withdrawal">
+    <div class="mt-8">
+      <div class="flex flex-col">
+        <div class="flex flex-col">
+          <div class="text-base font-semibold">Currency</div>
+          <div class="mt-2 ml-2 text-sm">
+            {{
+              currencyValue.currencyCode +
+                " - " +
+                currencyValue.currencyDescription
+            }}
+          </div>
+        </div>
+        <div class="flex flex-col mt-5">
+          <div class="text-base font-semibold">Transfer from Account</div>
+          <div class="mt-2 ml-2 text-sm">
+            {{ withdrawalForm.get("srcAccount")?.value?.tradingAccountNumber }}
+          </div>
+        </div>
+        <div class="flex flex-col mt-5">
+          <div class="text-base font-semibold">Transfer to Account</div>
+          <div class="mt-2 ml-2 text-sm">
+            {{ withdrawalForm.get("dstAccount")?.value?.ttBeneBankAcNo }}
+          </div>
+        </div>
+        <div class="flex flex-col mt-5">
+          <div class="text-base font-semibold">Amount</div>
+          <div class="mt-2 ml-2 text-sm">
+            {{ currencyValue.currencyCode }}
+            {{ withdrawalForm.get("trfAmount")?.value }}
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 flex flex-col md:flex-row">
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="submitAndNext()"
+          [disabled]="disableSubmit"
+        >
+          Submit
+        </button>
+        <button class="mr-2" mat-button color="primary" matStepperPrevious>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <div class="flex flex-col">
+      <div class="flex items-center justify-center">
+        <img [src]="tickImage" alt="Withdrawal success" />
+      </div>
+      <div class="flex flex-col items-center justify-center mt-5">
+        <div>Your withdrawal is now being processed!</div>
+        <div>Your balance and limits will be reflected in the next</div>
+        <div>x minutes.</div>
+      </div>
+      <div class="flex items-center justify-center">
+        ​
+        <div class="flex flex-col mt-5">
+          <div class="flex flex-col">
+            <div class="text-base font-semibold">Currency</div>
+            <div class="mt-2 ml-2 text-sm">
+              {{
+                currencyValue.currencyCode +
+                  " - " +
+                  currencyValue.currencyDescription
+              }}
+            </div>
+          </div>
+          <div class="flex flex-col mt-5">
+            <div class="text-base font-semibold">Transfer from Account</div>
+            <div class="mt-2 ml-2 text-sm">
+              {{
+                withdrawalForm.get("srcAccount")?.value?.tradingAccountNumber
+              }}
+            </div>
+          </div>
+          <div class="flex flex-col mt-5">
+            <div class="text-base font-semibold">Transfer to Account</div>
+            <div class="mt-2 ml-2 text-sm">
+              {{ withdrawalForm.get("dstAccount")?.value?.ttBeneBankAcNo }}
+            </div>
+          </div>
+          <div class="flex flex-col mt-5">
+            <div class="text-base font-semibold">Amount</div>
+            <div class="mt-2 ml-2 text-sm">
+              {{ currencyValue.currencyCode }}
+              {{ withdrawalForm.get("trfAmount")?.value }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-center mt-5">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="reset()"
+        class="w-full md:w-fit"
+      >
+        Done
+      </button>
+    </div>
+  </mat-step>
+</mat-stepper>
+<div class="text-center mb-5">
+  * Please note that deposits made between 8:31 PM to 8:29 AM, or during
+  weekends/public holidays, can only be withrawn on next business day 9 AM
+</div>

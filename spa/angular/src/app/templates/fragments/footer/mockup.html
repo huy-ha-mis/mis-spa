@@ -1,0 +1,22 @@
+<footer class="bg-dark-teal text-white px-8">
+    <div class="grid grid-cols-3 gap-12">
+      <a href="https://www.magnolia-cms.com" target="_blank">
+        <img
+          class="py-6 max-w-64"
+          src="/Magnolia_icon_white.svg"
+          alt="Magnolia Logo"
+        />
+      </a>
+      <div class="col-span-2">
+        @if (components) {
+          @for (childContent of components; track childContent) {
+            <editable-component [content]="childContent"></editable-component>
+          }
+        }
+      </div>
+    </div>
+    <div class="text-center text-light-green py-6">
+      <p>2024 Magnolia International Ltd. Some rights reserved.</p>
+    </div>
+  </footer>
+  
